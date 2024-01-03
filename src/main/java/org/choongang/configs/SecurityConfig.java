@@ -58,7 +58,6 @@ public class SecurityConfig {
         });
 
         /* 인가 설정 E - 접근 통제 */
-
         return http.build();
     }
 
