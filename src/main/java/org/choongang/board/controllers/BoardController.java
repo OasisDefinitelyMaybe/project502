@@ -17,15 +17,17 @@ public class BoardController {
     @ResponseBody
     @GetMapping("/test")
     public void test() {
+      /*
         BoardData data = boardDataRepository.findById(1L).orElse(null);
         data.setSubject("(수정)제목");
         boardDataRepository.flush();
-        /*
+
+       */
         BoardData data = new BoardData();
         data.setSubject("제목");
         data.setContent("내용");
         boardDataRepository.saveAndFlush(data);
-         */
+
     }
     @ResponseBody
     @GetMapping("/test2")
