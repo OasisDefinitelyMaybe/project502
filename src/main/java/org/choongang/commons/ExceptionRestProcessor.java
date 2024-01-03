@@ -26,3 +26,4 @@ public interface ExceptionRestProcessor {
         return ResponseEntity.status(status).body(data);
     }
 }
+
