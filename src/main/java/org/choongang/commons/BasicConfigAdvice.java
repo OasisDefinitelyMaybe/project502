@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-@ControllerAdvice("org.choongang")
+@ControllerAdvice(value = "org.choongang")
 @RequiredArgsConstructor
 public class BasicConfigAdvice {
     private final ConfigInfoService infoService;
