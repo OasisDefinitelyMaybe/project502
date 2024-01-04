@@ -51,9 +51,10 @@ public class MemberController implements ExceptionProcessor {
     private void commonProcess(String mode, Model model) {
         mode = StringUtils.hasText(mode) ? mode : "join";
         String pageTitle = Utils.getMessage("회원가입", "commons");
-        if(mode.equals("login")) {
+        if (mode.equals("login")) {
             pageTitle = Utils.getMessage("로그인", "commons");
         }
         model.addAttribute("pageTitle", pageTitle);
     }
 }
+
