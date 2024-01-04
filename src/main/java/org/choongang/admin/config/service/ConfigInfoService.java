@@ -35,7 +35,12 @@ public class ConfigInfoService {
 
         String jsonString = config.getData();
         try {
-            T data = om.readValue(jsonString, clazz);
+            T data = null;
+            if (clazz == null) { // TypeReference로 처리
+                data = om.readValue(jsonString, new TypeReference<T>() {});
+            } else { // Class로 처리
+                data = om.readValue(jsonString, clazz);
+            }
             return data;
         } catch (JsonProcessingException e) {
             e.printStackTrace();
