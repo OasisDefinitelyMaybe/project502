@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -76,12 +77,12 @@ public class FileUploadService {
 
                 /* 썸네일 이미치 처리 S */
                 if(fileType.indexOf("image/") != -1 && thumbsSize != null) {
-                    File thumbDir = new File(thumbPath + dir);
+                    File thumbDir = new File(thumbPath + (seq % 10) + "/" + seq);
                     if (!thumbDir.exists()) {
                         thumbDir.mkdirs();
                     }
                     for (int[] sizes : thumbsSize) {
-                        String thumbFileName = sizes[0] + "_" + sizes[1] + "_" + filename;
+                        String thumbFileName = sizes[0] + "_" + sizes[1] + "_" + seq + extension;
 
                         File thumb = new File(thumbDir, thumbFileName);
 
