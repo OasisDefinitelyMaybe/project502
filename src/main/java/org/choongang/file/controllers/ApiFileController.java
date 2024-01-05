@@ -11,8 +11,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class ApiFileController implements ExceptionRestProcessor {
 
     public void upload(@RequestParam("file") MultipartFile[] files,
-                       @RequestParam("gid") String gid,
-                       @RequestParam("location") String location) {
+                       @RequestParam(name = "gid", required = false) String gid,
+                       @RequestParam(name = "location", required = false) String location) {
 
     }
 }
