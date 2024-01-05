@@ -1,6 +1,8 @@
 package org.choongang.file.service;
 
 import lombok.RequiredArgsConstructor;
+import net.coobird.thumbnailator.Thumbnails;
+import org.choongang.commons.Utils;
 import org.choongang.configs.FileProperties;
 import org.choongang.file.entities.FileInfo;
 import org.choongang.file.repositories.FileInfoRepository;
@@ -23,6 +25,7 @@ public class FileUploadService {
     private final FileProperties fileProperties;
     private final FileInfoRepository repository;
     private final FileInfoService infoService;
+    private final Utils utils;
 
     public List<FileInfo> upload(MultipartFile[] files, String gid, String location) {
         /**
@@ -33,6 +36,9 @@ public class FileUploadService {
         gid = StringUtils.hasText(gid) ? gid : UUID.randomUUID().toString();
 
         String uploadPath = fileProperties.getPath(); // 파일 업로드 기본 경로
+        String thumbPath = uploadPath + "thumbs/"; // 썸네일 업로드 기본 경로
+
+        List<int[]> thumbsSize  = utils.getThumbSize(); // 썸네일 사이즈
 
         List<FileInfo> uploadedFiles = new ArrayList<>(); // 업로드 성공 파일 정보 목록
 
@@ -68,6 +74,26 @@ public class FileUploadService {
             try {
                 file.transferTo(uploadFile);
 
+                /* 썸네일 이미치 처리 S */
+                if(fileType.indexOf("image/") != -1 && thumbsSize != null) {
+                    File thumbDir = new File(thumbPath + dir);
+                    if (!thumbDir.exists()) {
+                        thumbDir.mkdirs();
+                    }
+                    for (int[] sizes : thumbsSize) {
+                        String thumbFileName = sizes[0] + "_" + sizes[1] + "_" + filename;
+
+                        File thumb = new File(thumbDir, thumbFileName);
+
+                        Thumbnails.of(uploadFile)
+                                .size(sizes[0], sizes[1])
+                                .toFile(thumb);
+                    }
+
+                }
+
+                /* 썸네일 이미치 처리 E */
+
                 infoService.addFileInfo(fileInfo);  // 파일 추가 정보 처리
 
                 uploadedFiles.add(fileInfo);  // 업로드 성공시 파일 정보 추가
@@ -83,6 +109,21 @@ public class FileUploadService {
         }
 
         return uploadedFiles;
+    }
+
+    /**
+     * 업로드 완료 처리
+     *
+     * @param gid
+     */
+    public void processDone(String gid) {
+       List<FileInfo> files = repository.findByGid(gid);
+       if (files == null) {
+           return;
+       }
+
+       files.forEach(file -> file.setDone(true));
+       repository.flush();
     }
 }
 
