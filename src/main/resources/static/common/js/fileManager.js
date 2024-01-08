@@ -22,7 +22,7 @@ commonLib.fileManager = {
 
              const gid = gidEl.value.trim();
 
-             FormData formData = new FormData(); // 기본 Content-Type: multipart/form-data
+             const formData = new FormData(); // 기본 Content-Type: multipart/form-data
 
              formData.append("gid", gid);
 
@@ -40,7 +40,7 @@ commonLib.fileManager = {
 
 // 이벤트 처리
 window.addEventListener("DOMContentLoaded", function() {
-  const uploadFiles = document.getElementByClassName("upload_files");
+  const uploadFiles = document.getElementsByClassName("upload_files");
 
   const fileEl = document.createElement("input");
   fileEl.type="file";
