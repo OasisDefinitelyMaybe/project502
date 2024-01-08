@@ -94,6 +94,8 @@ public class BoardController implements ExceptionProcessor {
             pageTitle = "게시판 관리";
         }
 
-     model.addAttribute("pageTitle", pageTitle);
+
+       model.addAttribute("pageTitle", pageTitle);
+       model.addAttribute("subMenuCode", mode);
     }
 }
