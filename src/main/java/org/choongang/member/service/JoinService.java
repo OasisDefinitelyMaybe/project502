@@ -44,7 +44,7 @@ public class JoinService {
 
         process(member);
 
-        // 회원 가입 시에는 일반 사용자 권한 부여 (USER)
+        // 회원 가입시에는 일반 사용자 권한 부여(USER)
         Authorities authorities = new Authorities();
         authorities.setMember(member);
         authorities.setAuthority(Authority.USER);
@@ -52,6 +52,7 @@ public class JoinService {
 
         // 파일 업로드 완료 처리
         uploadService.processDone(form.getGid());
+
     }
 
     public void process(Member member) {
